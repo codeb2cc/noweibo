@@ -28,7 +28,7 @@
 </div>
 
 <div class="container">
-  <div class="row" ng-show="weibos.length">
+  <div class="row" ng-show="weibos.length" style="display: none;">
     <div class="col-lg-4 index-weibo" ng-repeat="weibo in weibos">
       <h2><span ng-bind-html-unsafe="weibo.reposts_count | colorFilter"></span> | {{! weibo.uname }}</h2>
       <p>{{! weibo.text }}</p>

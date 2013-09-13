@@ -24,7 +24,7 @@
   </div>
 </div>
 
-<div class="container" ng-show="user">
+<div class="container" ng-show="user" style="display: none;">
   <div class="row">
     <div class="col-md-3">
       <div id="user_info">

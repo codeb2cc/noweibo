@@ -87,7 +87,9 @@ class OAuth2AuthorizeHandler(RequestHandler):
             response = yield self._fetch_user_info(_uid, _access_token)
             data = self._parse_response(response)
 
-            user_model = User(**data)
+            user_record = database[User._name].find_one({'uid': _uid})
+
+            user_model = User(record=user_record, **data)
             user_model.access_token = _access_token
 
             database[User._name].update({'uid': user_model.uid}, user_model.to_dict(), upsert=True)

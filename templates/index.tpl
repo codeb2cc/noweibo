@@ -27,11 +27,12 @@
     <p><a class="btn btn-primary btn-lg" href="/auth/redirect">开始使用 &raquo;</a></p>
   </div>
 </div>
+<div class="jumbotron-append" style="display: none;"><p></p></div>
 
-<div class="container">
+<div class="container" style="margin-top: -5px;">
   <div class="row" ng-show="weibos.length" style="display: none;">
     <div class="col-lg-4 index-weibo" ng-repeat="weibo in weibos">
-      <h2><span ng-bind-html-unsafe="weibo.reposts_count | colorFilter"></span> | {{! weibo.uname }}</h2>
+      <h2><span ng-bind-html-unsafe="weibo.reposts_count | colorFilter" title="转发数"></span> | {{! weibo.uname }}</h2>
       <p>{{! weibo.text }}</p>
       <p class="pull-right text-muted">{{! weibo.create_date * 1000 | date:'medium' }}</p>
     </div>

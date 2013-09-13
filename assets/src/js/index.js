@@ -25,26 +25,39 @@ window.APP = angular.module(
     ['noweibo.service', 'noweibo.directive', 'noweibo.filter']
   )
 
-APP.controller('AppCtrl', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
-  $scope.weibos = []
+APP.controller('AppCtrl', [
+  '$scope', '$http', '$timeout', '$location',
+  function ($scope, $http, $timeout, $location) {
+    $scope.weibos = []
 
-  $scope.queryWeibo = function () {
-    $http({ method: 'GET', url: '/weibo/public' }).success(function (data, status, headers, config) {
-      if (data['status'] === 'OK') {
-        $scope.weibos = data['data']
+    $scope.queryWeibo = function () {
+      $http({ method: 'GET', url: '/weibo/public' }).success(function (data, status, headers, config) {
+        if (data['status'] === 'OK') {
+          $scope.weibos = data['data']
+        }
+      }).error(function (data, status, headers, config) {
+        console.log(status)
+      })
+    }
+
+    var interval = setInterval(function () {
+      $scope.queryWeibo()
+    }, 60 * 1000)
+
+    $timeout(function () {
+      var hash = $location.search()
+      if (hash['message'] && typeof hash['message'] === 'string') {
+        $('.jumbotron-append p').html(hash['message'])
+        $('.jumbotron-append')
+          .fadeIn(500)
+          .delay(3000)
+          .fadeOut(500, function () {
+            $('.jumbotron-append p').html()
+          })
+        $location.search('message', null)
       }
-    }).error(function (data, status, headers, config) {
-      console.log(status)
-    })
+      $scope.queryWeibo()
+    }, 0)
   }
-
-  var interval = setInterval(function () {
-    $scope.queryWeibo()
-  }, 60 * 1000)
-
-  $timeout(function () {
-    $scope.queryWeibo()
-  }, 0)
-
-}])
+])
 

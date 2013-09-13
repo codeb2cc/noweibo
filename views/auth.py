@@ -100,14 +100,15 @@ class OAuth2AuthorizeHandler(RequestHandler):
             self.set_secure_cookie(
                     conf.SESSION_COOKIE,
                     session.session_id,
-                    expires_days=conf.SESSION_EXPIRES_DAYS)
+                    expires_days=conf.SESSION_EXPIRES_DAYS,
+                    httponly=True)
             self.redirect('/home')
         except KeyError:
-            self.redirect('/')
+            self.redirect('/#/?' + urlencode({ 'message': '微博OAuth2认证失败' }))
             return
         except Exception as e:
             logger.warn('OAuth2AuthorizeHandler: %s [code: %s]' % (e, _code))
-            self.redirect('/')
+            self.redirect('/#/?' + urlencode({ 'message': '微博OAuth2认证失败' }))
 
     def _fetch_access_token(self, code):
         _api = 'https://api.weibo.com/oauth2/access_token'

@@ -4,6 +4,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-36025716-2', 'noweibo.com');
+  ga('create', 'UA-44011561-1', 'noweibo.com');
   ga('send', 'pageview');
+
 </script>

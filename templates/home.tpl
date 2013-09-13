@@ -74,9 +74,9 @@
         <ul class="media-list">
           <li class="media" ng-repeat="weibo in weibos | orderBy:orderFilter():true" ng-show="pageFilter($index)">
             <div class="media-body">
-              <h4 class="media-heading text-muted">
+              <h5 class="media-heading text-muted">
                 {{! weibo.create_date * 1000 | date:'medium' }}
-              </h4>
+              </h5>
               <a href="/weibo/redirect?wid={{! weibo.wid }}" target="_blank"><span class="glyphicon glyphicon-new-window" title="查看原微博"></span></a>
               <p>{{! weibo.text }}</p>
             </div>

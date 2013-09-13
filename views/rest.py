@@ -25,7 +25,7 @@ logger = logging.getLogger('tornado.general')
 
 class RESTHandler(RequestHandler):
     def restful(self, data):
-        self.set_header('Cache-Control', 'private')
+        self.set_header('Cache-Control', 'private, no-cache')
         self.set_header('Date', datetime.datetime.now())
         self.set_header('Content-Type', 'application/json; charset=utf-8')
 

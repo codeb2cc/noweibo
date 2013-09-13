@@ -72,10 +72,7 @@ APP.controller('AppCtrl', ['$scope', '$http', '$timeout', function ($scope, $htt
   }
 
   $scope.optionDeleteBtnClass = function () {
-    if (!$scope.user) {
-      return ''
-    }
-    return $scope.user['options']['delete'] ? 'active': ''
+    return ($scope.user && $scope.user['options']['delete']) ? 'active': ''
   }
 
   $scope.updateUserOptions = function (option) {

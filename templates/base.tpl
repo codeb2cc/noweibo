@@ -6,6 +6,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta property="wb:webmaster" content="95df95f37d38eb48" />
     <title>{{ head_title }}</title>
     <meta name="description" content"{{ head_description }}">
     <meta name="viewport" content="width=device-width">

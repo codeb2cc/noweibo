@@ -3,8 +3,8 @@ APP_SECRET = '753105c67db92b16577ac87e37af0c97'
 
 COOKIE_SECRET = '2$onW88^G6I=dB4@EwXN1X!QGc&$$tiY'
 
-AUTHORIZE_REDIRECT = 'http://localhost.com/auth/authorize'
-REVOKE_REDIRECT = 'http://localhost.com/'
+AUTHORIZE_REDIRECT = 'http://noweibo.com/auth/authorize'
+REVOKE_REDIRECT = 'http://noweibo.com/'
 
 MONGO_URL = 'localhost'
 MONGO_PORT = 27017

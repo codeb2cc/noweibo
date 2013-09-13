@@ -143,7 +143,7 @@ def weibo_scan():
 def weibo_delete():
     try:
         weibo_records = database[Weibo._name].find(
-            {'reposts_count': {'$gt': 50}},
+            {'reposts_count': {'$gt': 499}},
             {'wid': True, 'uid': True},
             sort=[('reposts_count', DESCENDING)],
         )
@@ -152,7 +152,7 @@ def weibo_delete():
         for weibo in weibo_records:
             weibo_grouped[weibo['uid']].append(weibo['wid'])
         user_records = database[User._name].find({'uid': {'$in': list(weibo_grouped.keys())}})
-        user_tokens = dict([ (u['uid'], u['access_token']) for u in user_records ])
+        user_tokens = dict([ (u['uid'], u['access_token']) for u in user_records if u['options']['delete'] ])
 
         for uid, access_token in user_tokens.items():
             if not access_token:

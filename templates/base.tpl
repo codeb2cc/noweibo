@@ -29,5 +29,7 @@
     <script src="/assets/js/bootstrap.js"></script>
     <script src="/assets/js/plugins.js"></script>
     {% block js %}{% end %}
+
+    {% include "ga.tpl" %}
   </body>
 </html>

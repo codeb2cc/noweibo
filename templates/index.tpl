@@ -10,10 +10,11 @@
   <div class="container">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Noweibo | 莫微博</a>
+      <span class="badge navbar-brand-beta">BETA</span>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="/auth/redirect">登陆</a></li>
+        <li><a href="/auth/redirect">微博登陆</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

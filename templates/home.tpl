@@ -15,8 +15,9 @@
         <span class="icon-bar"></span>
       </button>
       <a class="navbar-brand" href="#">Noweibo | 莫微博</a>
+      <span class="badge navbar-brand-beta">BETA</span>
     </div>
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse navbar-right">
       <ul class="nav navbar-nav">
         <li><a data-toggle="modal" href="#about">关于</a></li>
       </ul>

@@ -86,29 +86,28 @@ class OAuth2AuthorizeHandler(RequestHandler):
             _access_token = data['access_token']
             response = yield self._fetch_user_info(_uid, _access_token)
             data = self._parse_response(response)
+
+            user_model = User(**data)
+            user_model.access_token = _access_token
+
+            database[User._name].update({'uid': user_model.uid}, user_model.to_dict(), upsert=True)
+
+            session = Session.create_session()
+            session.uid = user_model.uid
+            session.access_token = user_model.access_token
+
+            cache.set(session.session_id, session, conf.SESSION_EXPIRES_SECONDS)
+            self.set_secure_cookie(
+                    conf.SESSION_COOKIE,
+                    session.session_id,
+                    expires_days=conf.SESSION_EXPIRES_DAYS)
+            self.redirect('/home')
         except KeyError:
             self.redirect('/')
             return
         except Exception as e:
             logger.warn('OAuth2AuthorizeHandler: %s [code: %s]' % (e, _code))
             self.redirect('/')
-
-        user_model = User(**data)
-        user_model.access_token = _access_token
-
-        database[User._name].update({'uid': user_model.uid}, user_model.to_dict(), upsert=True)
-
-        session = Session.create_session()
-        session.uid = user_model.uid
-        session.access_token = user_model.access_token
-
-        cache.set(session.session_id, session, conf.SESSION_EXPIRES_SECONDS)
-        self.set_secure_cookie(
-                conf.SESSION_COOKIE,
-                session.session_id,
-                expires_days=conf.SESSION_EXPIRES_DAYS)
-        self.redirect('/home')
-
 
     def _fetch_access_token(self, code):
         _api = 'https://api.weibo.com/oauth2/access_token'

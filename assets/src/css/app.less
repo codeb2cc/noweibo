@@ -1,0 +1,118 @@
+@import "variables.less";
+@import "mixins.less";
+
+body {
+  padding-top: 80px;
+  padding-bottom: 20px;
+}
+
+.footer-links {
+  margin: 10px 0;
+  padding-left: 0;
+
+  li {
+    display: inline;
+    padding: 0 2px;
+  }
+
+  li:first-child {
+    padding-left: 0px;
+  }
+}
+
+.index-weibo {
+  padding-left: 20px;
+  padding-right: 20px;
+
+  p {
+    word-break: break-all;
+    text-indent: 2em;
+  }
+}
+
+#user_info {
+  padding: 20px 10px;
+
+  #user_avatar {
+    text-align: center;
+  }
+}
+
+#user_control {
+  padding: 0 12px;
+}
+
+#user_status {
+  padding: 20px 10px;
+}
+
+#user_tool {
+  padding-top: 10px;
+  padding-bottom: 16px;
+
+  #user_pagination {
+    float: right;
+  }
+}
+
+#user_weibo {
+  .media-list {
+    padding-left: 0;
+    padding-bottom: 1px;
+    margin-bottom: 20px;
+    list-style: none;
+    overflow: hidden;
+
+    .media {
+      width: 33.3%;
+      float: left;
+      height: 212px;
+      margin: 0 -1px -1px 0;
+      font-size: 16px;
+      line-height: 1.4em;
+      border: 1px solid #ddd;
+
+      .media-body {
+        padding: 10px;
+        height: 170px;
+        border-bottom: 1px solid #ddd;
+        position: relative;
+
+        span {
+          position: absolute;
+          top: 0;
+          right: 0;
+          padding: 6px;
+          color: #aaa;
+          font-size: 14px;
+          cursor: pointer
+        }
+
+        span:hover {
+          color: #333;
+        }
+
+        p {
+          text-indent: 2em;
+          word-break: break-all;
+        }
+      }
+
+      .media-append {
+        > span {
+          float: left;
+          width: 33%;
+          border-left: 1px solid #ddd;
+          margin-left: -1px;
+          padding: 10px;
+          font-size: 20px;
+          text-align: center;
+        }
+      }
+    }
+
+    .media:hover {
+      background-color: whiteSmoke;
+    }
+  }
+}

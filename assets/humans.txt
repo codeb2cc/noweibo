@@ -1,0 +1,20 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+    Codeb Fan -- Creator -- 
+
+# THANKS
+
+
+# TECHNOLOGY COLOPHON
+
+    HTML5, CSS3
+    Bootstrap, LESS
+    jQuery, Modernizr
+    AngularJS, Grunt
+    Tornado
+    Celery, RabbitMQ
+    MongoDB
+

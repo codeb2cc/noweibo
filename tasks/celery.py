@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from celery import Celery
 
-celery = Celery('noweibo', broker='amqp://guest:guest@localhost:5672//')
+celery = Celery('noweibo', broker='amqp://noweibo:xEAUHJxQmqU7FXywov56@localhost:5672//')
 
 celery.conf.update(
     CELERY_TIMEZONE = 'Asia/Shanghai',

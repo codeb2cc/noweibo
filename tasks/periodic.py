@@ -46,7 +46,7 @@ def user_update():
                 traceback.print_exc()
     except Exception as e:
         traceback.print_exc()
-        logger.warn(e, exc_info=True)
+        logger.error(e, exc_info=True)
 
 
 @celery.task(ignore_result=True)
@@ -86,44 +86,43 @@ def weibo_update():
                 traceback.print_exc()
     except Exception as e:
         traceback.print_exc()
-        logger.warn(e, exc_info=True)
+        logger.error(e, exc_info=True)
 
 
 @celery.task(ignore_result=True)
 def weibo_scan():
     try:
-        weibo_records = database[Weibo._name].find(
-            {'reposts_count': {'$gt': 100}},
-            {'wid': True, 'uid': True},
-            sort=[('reposts_count', DESCENDING)],
+        user_records = database[User._name].find(
+            {'access_token': {'$exists': True}},
+            {'uid': True, 'access_token': True},
         )
 
-        weibo_grouped = collections.defaultdict(list)
-        for weibo in weibo_records:
-            weibo_grouped[weibo['uid']].append(weibo['wid'])
-        user_records = database[User._name].find({'uid': {'$in': list(weibo_grouped.keys())}})
-        user_tokens = dict([ (u['uid'], u['access_token']) for u in user_records ])
-
         BULK_SIZE = 100
-        for uid, access_token in user_tokens.items():
-            if not access_token:
-                continue
+        QUERY_LIMIT = 1000
+        for user in user_records:
+            logger.info('[W SCAN] %s' % user['uid'])
 
-            weibos = weibo_grouped[uid]
-            for i in range(math.ceil(len(weibos) / BULK_SIZE)):
+            weibo_records = database[Weibo._name].find(
+                {'uid': user['uid']},
+                {'wid': True},
+                sort=[('create_date', DESCENDING)],
+                limit=QUERY_LIMIT,
+            )
+            weibo_ids = [ r['wid'] for r in weibo_records ]
+
+            for i in range(math.ceil(len(weibo_ids) / BULK_SIZE)):
                 try:
                     _start = i * BULK_SIZE
                     _end = _start + BULK_SIZE
                     _query = {
-                        'access_token': access_token,
-                        'ids': ','.join(weibos[_start:_end]),
+                        'access_token': user['access_token'],
+                        'ids': ','.join(weibo_ids[_start:_end]),
                     }
                     _url = 'https://api.weibo.com/2/statuses/count.json?%s' % parse.urlencode(_query)
                     with request.urlopen(_url) as f:
                         data = json.loads(f.read().decode('utf-8'))
 
                     for d in data:
-                        print(d)
                         database[Weibo._name].update(
                             {'wid': str(d['id'])},
                             {'$set': {
@@ -134,9 +133,10 @@ def weibo_scan():
                         )
                 except:
                     traceback.print_exc()
+                    logger.warn(e, exc_info=True)
     except Exception as e:
         traceback.print_exc()
-        logger.warn(e, exc_info=True)
+        logger.error(e, exc_info=True)
 
 
 @celery.task(ignore_result=True)
@@ -174,5 +174,5 @@ def weibo_delete():
                     traceback.print_exc()
     except Exception as e:
         traceback.print_exc()
-        logger.warn(e, exc_info=True)
+        logger.error(e, exc_info=True)
 

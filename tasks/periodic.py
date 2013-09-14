@@ -4,6 +4,7 @@ import collections
 import traceback
 
 from urllib import request, parse
+from urllib.error import HTTPError
 
 from pymongo import ASCENDING, DESCENDING
 
@@ -42,6 +43,8 @@ def user_update():
 
                 user_model = User(record=user_record, **data)
                 database[User._name].update({'uid': user_model.uid}, user_model.to_dict())
+            except HTTPError:
+                pass
             except:
                 traceback.print_exc()
     except Exception as e:
@@ -82,6 +85,8 @@ def weibo_update():
                 if weibo_models:
                     weibo_dicts = [ m.to_dict() for m in weibo_models ]
                     database[Weibo._name].insert(weibo_dicts)
+            except HTTPError:
+                pass
             except:
                 traceback.print_exc()
     except Exception as e:
@@ -131,7 +136,9 @@ def weibo_scan():
                                 'attitudes_count': d['attitudes'],
                             }},
                         )
-                except:
+                except HTTPError:
+                    pass
+                except Exception as e:
                     traceback.print_exc()
                     logger.warn(e, exc_info=True)
     except Exception as e:
@@ -170,6 +177,8 @@ def weibo_delete():
                         data = json.loads(f.read().decode('utf-8'))
 
                     database[Weibo._name].remove({'wid': data['idstr']})
+                except HTTPError:
+                    pass
                 except:
                     traceback.print_exc()
     except Exception as e:

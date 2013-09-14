@@ -2,7 +2,17 @@ from datetime import timedelta
 
 from celery import Celery
 
-celery = Celery('noweibo', broker='amqp://noweibo:xEAUHJxQmqU7FXywov56@localhost:5672//')
+from .. import conf
+
+celery = Celery(
+    'noweibo',
+    broker='amqp://%(user)s:%(password)s@%(host)s:%(port)s//' % {
+        'host': conf.RABBITMQ_HOST,
+        'port': conf.RABBITMQ_PORT,
+        'user': conf.RABBITMQ_USER,
+        'password': conf.RABBITMQ_PASSWORD,
+    }
+)
 
 celery.conf.update(
     CELERY_TIMEZONE = 'Asia/Shanghai',
@@ -12,22 +22,22 @@ celery.conf.update(
     CELERYBEAT_SCHEDULE = {
         'user_update': {
             'task': 'noweibo.tasks.periodic.user_update',
-            'schedule': timedelta(minutes=30),
+            'schedule': timedelta(minutes=conf.SCHEDULE_PERIODIC),
             'args': (),
         },
         'weibo_update': {
             'task': 'noweibo.tasks.periodic.weibo_update',
-            'schedule': timedelta(minutes=30),
+            'schedule': timedelta(minutes=conf.SCHEDULE_PERIODIC),
             'args': (),
         },
         'weibo_scan': {
             'task': 'noweibo.tasks.periodic.weibo_scan',
-            'schedule': timedelta(minutes=30),
+            'schedule': timedelta(minutes=conf.SCHEDULE_PERIODIC),
             'args': (),
         },
         'weibo_delete': {
             'task': 'noweibo.tasks.periodic.weibo_delete',
-            'schedule': timedelta(minutes=30),
+            'schedule': timedelta(minutes=conf.SCHEDULE_PERIODIC),
             'args': (),
         },
     },

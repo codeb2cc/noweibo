@@ -58,6 +58,7 @@ class HomeHandler(BaseViewHandler):
                 'head_title': 'Noweibo | 莫微博',
                 'head_description': 'noweibo.com',
                 'angular_module': 'noweiboHome',
+                'periodic': conf.SCHEDULE_PERIODIC,
             }
             self.write(tpl.generate(**context))
         except (ValueError, AssertionError):

@@ -1,9 +1,12 @@
-import traceback
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# import traceback
 
 from tornado import options, ioloop, web, process
 
-from . import conf
 from . import views
+from .conf import setting
 
 
 options.define('port', default=5000, type=int)
@@ -26,19 +29,19 @@ def main():
     print('Service Running on %d ...' % process_port)
 
     app = web.Application((
-            (r'/', views.base.IndexHandler),
-            (r'/home', views.base.HomeHandler),
-            (r'/auth/redirect', views.auth.OAuth2RedirectHandler),
-            (r'/auth/revoke', views.auth.OAuth2RevokeHandler),
-            (r'/auth/authorize', views.auth.OAuth2AuthorizeHandler),
-            (r'/auth/info', views.auth.OAuth2InfoHandler),
-            (r'/user/info', views.rest.UserInfoHandler),
-            (r'/user/option', views.rest.UserOptionHandler),
-            (r'/weibo/public', views.rest.WeiboPublicHandler),
-            (r'/weibo/sync', views.rest.WeiboSyncHandler),
-            (r'/weibo/query', views.rest.WeiboQueryHandler),
-            (r'/weibo/redirect', views.rest.WeiboRedirectHandler),
-        ), debug=process_debug, cookie_secret=conf.COOKIE_SECRET)
+        (r'/', views.base.IndexHandler),
+        (r'/home', views.base.HomeHandler),
+        (r'/auth/redirect', views.auth.OAuth2RedirectHandler),
+        (r'/auth/revoke', views.auth.OAuth2RevokeHandler),
+        (r'/auth/authorize', views.auth.OAuth2AuthorizeHandler),
+        (r'/auth/info', views.auth.OAuth2InfoHandler),
+        (r'/user/info', views.rest.UserInfoHandler),
+        (r'/user/option', views.rest.UserOptionHandler),
+        (r'/weibo/public', views.rest.WeiboPublicHandler),
+        (r'/weibo/sync', views.rest.WeiboSyncHandler),
+        (r'/weibo/query', views.rest.WeiboQueryHandler),
+        (r'/weibo/redirect', views.rest.WeiboRedirectHandler),
+    ), debug=process_debug, cookie_secret=setting.COOKIE_SECRET)
     app.listen(process_port, xheaders=True)
 
     loop = ioloop.IOLoop.instance()

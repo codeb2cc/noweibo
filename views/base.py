@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import datetime
 import logging
 import traceback
@@ -7,8 +10,8 @@ from tornado.template import Loader
 
 from .utils import T
 
-from .. import conf
-from ..models import client, database, cache
+from ..conf import setting
+from ..models import database, cache
 from ..models import Session, User
 
 
@@ -25,7 +28,7 @@ class BaseViewHandler(RequestHandler):
 class IndexHandler(BaseViewHandler):
     def get(self):
         try:
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             session_cache = T(cache.get(session_id.decode('ascii')))
             self.session = Session(**session_cache)
 
@@ -46,7 +49,7 @@ class IndexHandler(BaseViewHandler):
 class HomeHandler(BaseViewHandler):
     def get(self):
         try:
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             session_cache = T(cache.get(session_id.decode('ascii')))
             self.session = Session(**session_cache)
             user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
@@ -58,7 +61,7 @@ class HomeHandler(BaseViewHandler):
                 'head_title': 'Noweibo | 莫微博',
                 'head_description': 'noweibo.com',
                 'angular_module': 'noweiboHome',
-                'periodic': conf.SCHEDULE_PERIODIC,
+                'periodic': setting.SCHEDULE_PERIODIC,
             }
             self.write(tpl.generate(**context))
         except (ValueError, AssertionError):

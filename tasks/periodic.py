@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import math
 import json
 import collections
@@ -6,11 +9,11 @@ import traceback
 from urllib import request, parse
 from urllib.error import HTTPError
 
-from pymongo import ASCENDING, DESCENDING
+from pymongo import DESCENDING
 
 from .celery import celery
 
-from ..models import client, database
+from ..models import database
 from ..models import User, Weibo
 
 

@@ -1,7 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 APP_KEY = '3359148779'
 APP_SECRET = '753105c67db92b16577ac87e37af0c97'
 
-COOKIE_SECRET = '2$onW88^G6I=dB4@EwXN1X!QGc&$$tiY'
+COOKIE_SECRET = 'cmL8d`+/v5T:DJrkIZVD?UE#JL00Stjt'
 
 AUTHORIZE_REDIRECT = 'http://noweibo.com/auth/authorize'
 REVOKE_REDIRECT = 'http://noweibo.com/'

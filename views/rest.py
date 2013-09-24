@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import io
 import json
 import datetime
@@ -6,17 +9,17 @@ import traceback
 
 from urllib.parse import urlencode
 
-from pymongo import ASCENDING, DESCENDING
+from pymongo import DESCENDING
 
 from tornado.web import asynchronous
 from tornado.web import RequestHandler
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse, HTTPError
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.stack_context import ExceptionStackContext
 
 from .utils import T, flatten_arguments
 
-from .. import conf
-from ..models import client, database, cache
+from ..conf import setting
+from ..models import database, cache
 from ..models import Session, User, Weibo
 
 
@@ -42,7 +45,7 @@ class UserInfoHandler(RESTHandler):
     @asynchronous
     def get(self):
         try:
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             session_cache = T(cache.get(session_id.decode('ascii')))
             self.session = Session(**session_cache)
             user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
@@ -72,11 +75,13 @@ class UserInfoHandler(RESTHandler):
         logger.error('UserInfoHandler: %s' % exc_info[1], exc_info=True)
         self.send_error(500)
 
+        return True
+
 
 class UserOptionHandler(RESTHandler):
     def post(self):
         try:
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             session_cache = T(cache.get(session_id.decode('ascii')))
             self.session = Session(**session_cache)
             user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
@@ -121,7 +126,7 @@ class WeiboSyncHandler(RESTHandler):
     @asynchronous
     def post(self):
         try:
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             session_cache = T(cache.get(session_id.decode('ascii')))
             self.session = Session(**session_cache)
             user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
@@ -164,8 +169,10 @@ class WeiboSyncHandler(RESTHandler):
         self.restful({ 'count': len(weibo_models) })
 
     def _on_exception(self, *exc_info):
-        logger.error('UserInfoHandler: %s' % exc_info[1], exc_info=True)
+        logger.error('UserInfoHandler: %s' % traceback.format_exception(*exc_info)[-1])
         self.send_error(500)
+
+        return True
 
 
 class WeiboQueryHandler(RESTHandler):
@@ -173,7 +180,7 @@ class WeiboQueryHandler(RESTHandler):
         try:
             request_args = flatten_arguments(self.request.arguments)
 
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             session_cache = T(cache.get(session_id.decode('ascii')))
             self.session = Session(**session_cache)
             user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
@@ -204,7 +211,7 @@ class WeiboRedirectHandler(RequestHandler):
         try:
             request_args = flatten_arguments(self.request.arguments)
 
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             session_cache = T(cache.get(session_id.decode('ascii')))
             self.session = Session(**session_cache)
             user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
@@ -239,5 +246,7 @@ class WeiboRedirectHandler(RequestHandler):
     def _on_exception(self, *exc_info):
         logger.error('UserInfoHandler: %s' % exc_info[1], exc_info=True)
         self.send_error(500)
+
+        return True
 
 

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import io
 import json
 import datetime
@@ -8,15 +11,14 @@ from urllib.parse import urlencode
 
 from tornado.web import asynchronous
 from tornado.web import RequestHandler
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse, HTTPError
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.gen import coroutine
 from tornado.stack_context import ExceptionStackContext
 
 from .utils import T, flatten_arguments
 
-from .. import conf
-from .. import tasks
-from ..models import client, database, cache
+from ..conf import setting
+from ..models import database, cache
 from ..models import Session, User
 
 
@@ -25,8 +27,8 @@ logger = logging.getLogger('tornado.general')
 
 class OAuth2RedirectHandler(RequestHandler):
     def get(self):
-        _client_id = conf.APP_KEY
-        _redirect_uri = conf.AUTHORIZE_REDIRECT
+        _client_id = setting.APP_KEY
+        _redirect_uri = setting.AUTHORIZE_REDIRECT
         # _scope = None
         # _state = None
 
@@ -43,7 +45,7 @@ class OAuth2RevokeHandler(RequestHandler):
     @asynchronous
     def get(self):
         try:
-            session_id   = T(self.get_secure_cookie(conf.SESSION_COOKIE))
+            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             self.session = T(Session(cache.get(session_id.decode('ascii'))))
             user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
 
@@ -98,11 +100,11 @@ class OAuth2AuthorizeHandler(RequestHandler):
             session.uid = user_model.uid
             session.access_token = user_model.access_token
 
-            cache.set(session.session_id, session, conf.SESSION_EXPIRES_SECONDS)
+            cache.set(session.session_id, session, setting.SESSION_EXPIRES_SECONDS)
             self.set_secure_cookie(
-                    conf.SESSION_COOKIE,
+                    setting.SESSION_COOKIE,
                     session.session_id,
-                    expires_days=conf.SESSION_EXPIRES_DAYS,
+                    expires_days=setting.SESSION_EXPIRES_DAYS,
                     httponly=True)
             self.redirect('/home')
         except KeyError:
@@ -115,11 +117,11 @@ class OAuth2AuthorizeHandler(RequestHandler):
     def _fetch_access_token(self, code):
         _api = 'https://api.weibo.com/oauth2/access_token'
         _params = {
-            'client_id': conf.APP_KEY,
-            'client_secret': conf.APP_SECRET,
+            'client_id': setting.APP_KEY,
+            'client_secret': setting.APP_SECRET,
             'grant_type': 'authorization_code',
             'code': code,
-            'redirect_uri': conf.AUTHORIZE_REDIRECT,
+            'redirect_uri': setting.AUTHORIZE_REDIRECT,
         }
         _request = HTTPRequest(url=_api, method='POST', body=urlencode(_params), use_gzip=True)
 

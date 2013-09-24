@@ -1,5 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import json
-import traceback
+# import traceback
 
 from datetime import datetime
 
@@ -8,7 +11,7 @@ import memcache
 
 from tornado.util import ObjectDict
 
-from . import conf
+from .conf import setting
 from .utils import generate_key, validate_sha1
 
 
@@ -28,7 +31,7 @@ class MongoBase():
     _defaults = {}
 
     def __init__(self, record=None, **kwargs):
-        self.__dict__['_record'] = record or { '_id': None }
+        self.__dict__['_record'] = record or {'_id': None}
         for key, attr in self._attrs:
             if key in kwargs:
                 self._record[attr] = kwargs.get(key, self._defaults.get(key))
@@ -141,8 +144,8 @@ class Weibo(MongoBase):
             self.retweeted = None
 
 
-client = pymongo.MongoClient(conf.MONGO_URL, conf.MONGO_PORT)
-database = client[conf.MONGO_DB]
+client = pymongo.MongoClient(setting.MONGO_URL, setting.MONGO_PORT)
+database = client[setting.MONGO_DB]
 
 database[User._name].ensure_index([('uid', pymongo.ASCENDING)], unique=True)
 database[User._name].ensure_index([('access_token', pymongo.ASCENDING)], unique=True)
@@ -152,5 +155,5 @@ database[Weibo._name].ensure_index([('retweeted', pymongo.ASCENDING)])
 database[Weibo._name].ensure_index([('reposts_count', pymongo.DESCENDING)])
 database[Weibo._name].ensure_index([('comments_count', pymongo.DESCENDING)])
 
-cache = memcache.Client([conf.MEMCACHED])
+cache = memcache.Client([setting.MEMCACHED])
 

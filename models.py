@@ -162,7 +162,7 @@ client = pymongo.MongoClient(setting.MONGO_URL, setting.MONGO_PORT)
 database = client[setting.MONGO_DB]
 
 database[User._name].ensure_index([('uid', pymongo.ASCENDING)], unique=True)
-database[User._name].ensure_index([('access_token', pymongo.ASCENDING)], unique=True)
+database[User._name].ensure_index([('access_token', pymongo.ASCENDING)], unique=True, sparse=True)
 database[Weibo._name].ensure_index([('wid', pymongo.ASCENDING)], unique=True)
 database[Weibo._name].ensure_index([('uid', pymongo.ASCENDING), ('create_date', pymongo.DESCENDING)])
 database[Weibo._name].ensure_index([('retweeted', pymongo.ASCENDING)])

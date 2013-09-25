@@ -41,6 +41,7 @@ def main():
         (r'/weibo/sync', views.rest.WeiboSyncHandler),
         (r'/weibo/query', views.rest.WeiboQueryHandler),
         (r'/weibo/redirect', views.rest.WeiboRedirectHandler),
+        (r'/emotion/query', views.rest.EmotionQueryHandler),
     ), debug=process_debug, cookie_secret=setting.COOKIE_SECRET)
     app.listen(process_port, xheaders=True)
 

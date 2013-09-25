@@ -80,7 +80,7 @@ class User(MongoBase):
         ('cover_image', 'cover_image'),               # 封面图片
         ('friends_count', 'friends_count'),           # 关注数
         ('followers_count', 'followers_count'),       # 粉丝数
-        ('bi_followers_count', 'bi_followers_count'), # 互粉数
+        ('bi_followers_count', 'bi_followers_count'),   # 互粉数
         ('statuses_count', 'statuses_count'),         # 微博数
         ('favourites_count', 'favourites_count'),     # 收藏数
         ('created_at', 'register_date'),              # 微博注册时间
@@ -122,7 +122,7 @@ class Weibo(MongoBase):
         ('geo', 'geo'),                         # 地理位置信息结构
         ('reposts_count', 'reposts_count'),     # 转发数
         ('comments_count', 'comments_count'),   # 评论数
-        ('attitudes_count', 'attitudes_count'), # 表态数
+        ('attitudes_count', 'attitudes_count'),     # 表态数
         ('visible', 'visible'),                 # 可见性
         ('created_at', 'create_date'),          # 微博创建时间
     ]
@@ -144,6 +144,20 @@ class Weibo(MongoBase):
             self.retweeted = None
 
 
+class Emotion(MongoBase):
+    _name = 'emotion'
+    _attrs = [
+        ('category', 'category'),
+        ('common', 'common'),
+        ('icon', 'icon'),
+        ('phrase', 'phrase'),
+        ('picid', 'picid'),
+        ('type', 'type'),
+        ('url', 'url'),
+        ('value', 'value'),
+    ]
+
+
 client = pymongo.MongoClient(setting.MONGO_URL, setting.MONGO_PORT)
 database = client[setting.MONGO_DB]
 
@@ -154,6 +168,7 @@ database[Weibo._name].ensure_index([('uid', pymongo.ASCENDING), ('create_date', 
 database[Weibo._name].ensure_index([('retweeted', pymongo.ASCENDING)])
 database[Weibo._name].ensure_index([('reposts_count', pymongo.DESCENDING)])
 database[Weibo._name].ensure_index([('comments_count', pymongo.DESCENDING)])
+database[Emotion._name].ensure_index([('phrase', pymongo.DESCENDING)])
 
 cache = memcache.Client([setting.MEMCACHED])
 

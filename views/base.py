@@ -39,7 +39,7 @@ class IndexHandler(BaseViewHandler):
 
         tpl = templates.load('index.tpl')
         context = {
-            'head_title': 'Noweibo | 莫微博',
+            'head_title': 'Noweibo | 莫微薄',
             'head_description': 'noweibo.com',
             'angular_module': 'noweiboIndex',
         }
@@ -58,7 +58,7 @@ class HomeHandler(BaseViewHandler):
 
             tpl = templates.load('home.tpl')
             context = {
-                'head_title': 'Noweibo | 莫微博',
+                'head_title': 'Noweibo | 莫微薄',
                 'head_description': 'noweibo.com',
                 'angular_module': 'noweiboHome',
                 'periodic': setting.SCHEDULE_PERIODIC,

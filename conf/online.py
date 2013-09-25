@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-APP_KEY = '3359148779'
-APP_SECRET = '753105c67db92b16577ac87e37af0c97'
+APP_KEY = '2444549515'
+APP_SECRET = '85d0d82b48c9f4f7c13f2d07c28d4f55'
 
 COOKIE_SECRET = 'cmL8d`+/v5T:DJrkIZVD?UE#JL00Stjt'
 

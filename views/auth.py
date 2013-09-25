@@ -36,7 +36,7 @@ class OAuth2RedirectHandler(RequestHandler):
         _params = {
             'client_id': _client_id,
             'redirect_uri': _redirect_uri,
-            }
+        }
 
         self.redirect(_api + '?' + urlencode(_params))
 
@@ -45,11 +45,11 @@ class OAuth2RevokeHandler(RequestHandler):
     @asynchronous
     def get(self):
         try:
-            session_id   = T(self.get_secure_cookie(setting.SESSION_COOKIE))
+            session_id = T(self.get_secure_cookie(setting.SESSION_COOKIE))
             self.session = T(Session(cache.get(session_id.decode('ascii'))))
-            user_record  = T(database[User._name].find_one({'uid': self.session.uid}))
+            user_record = T(database[User._name].find_one({'uid': self.session.uid}))
 
-            _query = { 'access_token': user_record['access_token'] }
+            _query = {'access_token': user_record['access_token']}
             _url = 'https://api.weibo.com/oauth2/revokeoauth2?%s' % urlencode(_query)
 
             request = HTTPRequest(url=_url, method='GET', use_gzip=True)
@@ -79,6 +79,11 @@ class OAuth2AuthorizeHandler(RequestHandler):
     def get(self):
         request_args = flatten_arguments(self.request.arguments)
 
+        if request_args.get('error'):
+            self.clear_cookie(setting.SESSION_COOKIE)
+            self.redirect('/')
+            return
+
         try:
             _code = request_args['code']
             response = yield self._fetch_access_token(_code)
@@ -102,17 +107,17 @@ class OAuth2AuthorizeHandler(RequestHandler):
 
             cache.set(session.session_id, session, setting.SESSION_EXPIRES_SECONDS)
             self.set_secure_cookie(
-                    setting.SESSION_COOKIE,
-                    session.session_id,
-                    expires_days=setting.SESSION_EXPIRES_DAYS,
-                    httponly=True)
+                setting.SESSION_COOKIE,
+                session.session_id,
+                expires_days=setting.SESSION_EXPIRES_DAYS,
+                httponly=True)
             self.redirect('/home')
         except KeyError:
-            self.redirect('/#/?' + urlencode({ 'message': '微博OAuth2认证失败' }))
+            self.redirect('/#/?' + urlencode({'message': '微博OAuth2认证失败'}))
             return
         except Exception as e:
             logger.warn('OAuth2AuthorizeHandler: %s [code: %s]' % (e, _code))
-            self.redirect('/#/?' + urlencode({ 'message': '微博OAuth2认证失败' }))
+            self.redirect('/#/?' + urlencode({'message': '微博OAuth2认证失败'}))
 
     def _fetch_access_token(self, code):
         _api = 'https://api.weibo.com/oauth2/access_token'
@@ -128,7 +133,7 @@ class OAuth2AuthorizeHandler(RequestHandler):
         return AsyncHTTPClient().fetch(_request)
 
     def _fetch_user_info(self, uid, access_token):
-        _query = { 'uid': uid, 'access_token': access_token }
+        _query = {'uid': uid, 'access_token': access_token}
         _url = 'https://api.weibo.com/2/users/show.json?%s' % urlencode(_query)
         _request = HTTPRequest(url=_url, method='GET', use_gzip=True)
 

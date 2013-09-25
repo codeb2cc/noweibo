@@ -79,7 +79,7 @@
                 {{! weibo.create_date * 1000 | date:'medium' }}
               </h5>
               <a href="/weibo/redirect?wid={{! weibo.wid }}" target="_blank"><span class="glyphicon glyphicon-new-window" title="查看原微博"></span></a>
-              <p>{{! weibo.text }}</p>
+              <p ng-bind="weibo.text" com-short-url></p>
             </div>
             <div class="media-append clearfix">
               <span title="转发数" ng-bind-html-unsafe="weibo.reposts_count | colorFilter"></span>

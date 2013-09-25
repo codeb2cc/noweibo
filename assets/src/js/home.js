@@ -1,6 +1,16 @@
 angular.module('noweibo.service', [])
 
-angular.module('noweibo.directive', [])
+angular.module('noweibo.directive', []).directive('comShortUrl', function factory($timeout) {
+  return function postLink(scope, iElement, iAttrs) {
+    var anchor = function () {
+      var shortUrl = new RegExp('(http://t.cn/[a-zA-Z0-9]{7})', 'g')
+      var linkTpl = '<a href="$1" target="_blank">$1</a>'
+
+      iElement.html(iElement.text().replace(shortUrl, linkTpl))
+    }
+    $timeout(anchor, 0)
+  }
+})
 
 angular.module('noweibo.filter', []).filter('colorFilter', function () {
   return function (input, flag) {
@@ -19,6 +29,8 @@ angular.module('noweibo.filter', []).filter('colorFilter', function () {
     return '<span class="' + colorClass + '">' + input + '</span>'
   }
 })
+
+
 
 window.APP = angular.module(
     'noweiboHome',

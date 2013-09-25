@@ -33,7 +33,7 @@
   <div class="row" ng-show="weibos.length" style="display: none;">
     <div class="col-lg-4 index-weibo" ng-repeat="weibo in weibos">
       <h2><span ng-bind-html-unsafe="weibo.reposts_count | colorFilter" title="转发数"></span> | {{! weibo.uname }}</h2>
-      <p>{{! weibo.text }}</p>
+      <p com-short-ul>{{! weibo.text }}</p>
       <p class="pull-right text-muted">{{! weibo.create_date * 1000 | date:'medium' }}</p>
     </div>
   </div>

@@ -97,7 +97,7 @@ module.exports = function(grunt) {
       options: {
         banner: '<%= banner %>',
         mangle: {
-          except: ['$scope']
+          except: ['$scope', '$http', '$timeout']
         },
         preserveComments: false
       },

@@ -22,7 +22,7 @@
 
 <div class="jumbotron">
   <div class="container">
-    <h1>Noweibo | 莫微博</h1>
+    <h1>Noweibo | 莫微薄</h1>
     <p>微博转发数自动监控，降低自由言论风险成本</p>
     <p><a class="btn btn-primary btn-lg" href="/auth/redirect">开始使用 &raquo;</a></p>
   </div>

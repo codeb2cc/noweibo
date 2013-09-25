@@ -3,7 +3,7 @@ angular.module('noweibo.service', [])
 angular.module('noweibo.directive', []).directive('comShortUrl', function factory($timeout) {
   return function postLink(scope, iElement, iAttrs) {
     var anchor = function () {
-      var shortUrl = new RegExp('(http://t.cn/[a-zA-Z0-9]{7})', 'g')
+      var shortUrl = new RegExp('(http://t.cn/[a-zA-Z0-9]{4,9})', 'g')
       var linkTpl = '<a href="$1" target="_blank">$1</a>'
 
       iElement.html(iElement.text().replace(shortUrl, linkTpl))

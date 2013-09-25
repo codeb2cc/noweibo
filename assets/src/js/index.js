@@ -3,7 +3,7 @@ angular.module('noweibo.service', [])
 angular.module('noweibo.directive', []).directive('comShortUrl', function factory($timeout) {
   return function postLink(scope, iElement, iAttrs) {
     var anchor = function () {
-      var shortUrl = new RegExp('(http://t.cn/[a-zA-Z0-9]{7})', 'g')
+      var shortUrl = new RegExp('(http://t.cn/[a-zA-Z0-9]{4,9})', 'g')
       var linkTpl = '<a href="$1" target="_blank">$1</a>'
 
       iElement.html(iElement.text().replace(shortUrl, linkTpl))
@@ -56,16 +56,23 @@ APP.controller('AppCtrl', [
 
     $timeout(function () {
       var hash = $location.search()
+      var message = ''
+
       if (hash['message'] && typeof hash['message'] === 'string') {
-        $('.jumbotron-append p').html(hash['message'])
-        $('.jumbotron-append')
-          .fadeIn(500)
-          .delay(3000)
-          .fadeOut(500, function () {
-            $('.jumbotron-append p').html()
-          })
-        $location.search('message', null)
+        message = hash['message']
+      } else {
+        message = '由于新浪微博屏蔽了个人开发者对数据类应用的审核申请，本站目前仅供开发人员测试，请谅解'
       }
+
+      $('.jumbotron-append p').html(message)
+      $('.jumbotron-append')
+        .fadeIn(500)
+        .delay(5000)
+        .fadeOut(500, function () {
+          $('.jumbotron-append p').html()
+        })
+
+      $location.search('message', null)
       $scope.queryWeibo()
     }, 0)
   }

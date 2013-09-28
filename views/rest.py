@@ -260,7 +260,6 @@ class EmotionQueryHandler(RESTHandler):
                     return False
 
             emotion_query = self.get_arguments('phrases')
-            print(emotion_query)
             emotion_phrases = list(filter(emotion_validator, emotion_query))
 
             emotion_records = database[Emotion._name].find({'phrase': {'$in': emotion_phrases}})

@@ -1,3 +1,5 @@
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/codeb2cc/noweibo/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 Noweibo.com
 ===========
 

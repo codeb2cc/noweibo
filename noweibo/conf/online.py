@@ -7,8 +7,8 @@ import os
 APP_IP = os.environ['OPENSHIFT_DIY_IP']
 APP_PORT = int(os.environ['OPENSHIFT_DIY_PORT'])
 
-APP_KEY = '2444549515'
-APP_SECRET = '85d0d82b48c9f4f7c13f2d07c28d4f55'
+APP_KEY = os.environ['WEIBO_KEY']
+APP_SECRET = os.environ['WEIBO_SECRET']
 
 COOKIE_SECRET = 'cmL8d`+/v5T:DJrkIZVD?UE#JL00Stjt'
 

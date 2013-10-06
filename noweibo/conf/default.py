@@ -3,6 +3,10 @@
 
 import os
 
+
+APP_IP = '127.0.0.1'
+APP_PORT = 8000
+
 APP_KEY = '66994707'
 APP_SECRET = '323631d3d46128ea30605a7732bb6dfd'
 

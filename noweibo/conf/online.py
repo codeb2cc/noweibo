@@ -3,6 +3,10 @@
 
 import os
 
+
+APP_IP = os.environ['OPENSHIFT_DIY_IP']
+APP_PORT = int(os.environ['OPENSHIFT_DIY_PORT'])
+
 APP_KEY = '2444549515'
 APP_SECRET = '85d0d82b48c9f4f7c13f2d07c28d4f55'
 
@@ -14,7 +18,7 @@ AUTHORIZE_REDIRECT = 'http://noweibo.com/auth/authorize'
 REVOKE_REDIRECT = 'http://noweibo.com/'
 
 MONGO_URL = os.environ['OPENSHIFT_MONGODB_DB_URL']
-MONGO_PORT = os.environ['OPENSHIFT_MONGODB_DB_PORT']
+MONGO_PORT = int(os.environ['OPENSHIFT_MONGODB_DB_PORT'])
 MONGO_DB = 'noweibo'
 
 MEMCACHED = '/tmp/memcached.sock'

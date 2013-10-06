@@ -9,7 +9,7 @@ from . import views
 from .conf import setting
 
 
-options.define('port', default=5000, type=int)
+options.define('port', default=setting.APP_PORT, type=int)
 options.define('process', default=1, type=int)
 options.define('debug', default=3, type=int)
 
@@ -44,7 +44,7 @@ def main():
         (r'/emotion/query', views.rest.EmotionQueryHandler),
         (r'/public/(.*)', web.StaticFileHandler, {'path': setting.STATIC_PATH}),
     ), debug=process_debug, cookie_secret=setting.COOKIE_SECRET)
-    app.listen(process_port, xheaders=True)
+    app.listen(process_port, address=setting.APP_IP, xheaders=True)
 
     loop = ioloop.IOLoop.instance()
     loop.start()

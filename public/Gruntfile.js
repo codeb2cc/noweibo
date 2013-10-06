@@ -18,11 +18,11 @@ module.exports = function(grunt) {
         tasks: ['jshint:gruntfile'],
       },
       less: {
-        files: ['assets/src/css/*.less'],
+        files: ['src/css/*.less'],
         tasks: ['recess']
       },
       javascript: {
-        files: ['assets/src/js/*.js'],
+        files: ['src/js/*.js'],
         tasks: ['concat']
       }
     },
@@ -32,28 +32,29 @@ module.exports = function(grunt) {
     copy: {
       vendor: {
         files: [
-          { expand: true, cwd: 'assets/src/', src: ['js/vendor/**'], dest: 'assets/dist/' },
-          { expand: true, cwd: 'assets/lib/bootstrap/', src: ['fonts/**'], dest: 'assets/dist/' }
+          { expand: true, cwd: 'src/', src: ['js/vendor/**'], dest: 'dist/' },
+          { expand: true, cwd: 'src/lib/bootstrap/', src: ['fonts/**'], dest: 'dist/' }
         ]
       }
     },
 
     recess: {
-      options: {
-        compile: true,
-        compress: false
+      options: { compile: true },
+      dev: {
+        options: { compress: false },
+        files: {
+          'dist/css/bootstrap.css': 'src/lib/bootstrap/less/bootstrap.less',
+          'dist/css/bootstrap-theme.css': 'src/lib/bootstrap/less/theme.less',
+          'dist/css/app.css': 'src/css/app.less'
+        }
       },
-      bootstrap: {
-        src: ['assets/lib/bootstrap/less/bootstrap.less'],
-        dest: 'assets/dist/css/bootstrap.css'
-      },
-      theme: {
-        src: ['assets/lib/bootstrap/less/theme.less'],
-        dest: 'assets/dist/css/bootstrap-theme.css'
-      },
-      app: {
-        src: ['assets/src/css/app.less'],
-        dest: 'assets/dist/css/app.css'
+      release: {
+        options: { compress: true },
+        files: {
+          'dist/css/bootstrap.css': 'src/lib/bootstrap/less/bootstrap.less',
+          'dist/css/bootstrap-theme.css': 'src/lib/bootstrap/less/theme.less',
+          'dist/css/app.css': 'src/css/app.less'
+        }
       }
     },
 
@@ -64,32 +65,32 @@ module.exports = function(grunt) {
       },
       bootstrap: {
         src: [
-          'assets/lib/bootstrap/js/transition.js',
-          'assets/lib/bootstrap/js/alert.js',
-          'assets/lib/bootstrap/js/button.js',
-          'assets/lib/bootstrap/js/carousel.js',
-          'assets/lib/bootstrap/js/collapse.js',
-          'assets/lib/bootstrap/js/dropdown.js',
-          'assets/lib/bootstrap/js/modal.js',
-          'assets/lib/bootstrap/js/tooltip.js',
-          'assets/lib/bootstrap/js/popover.js',
-          'assets/lib/bootstrap/js/scrollspy.js',
-          'assets/lib/bootstrap/js/tab.js',
-          'assets/lib/bootstrap/js/affix.js'
+          'src/lib/bootstrap/js/transition.js',
+          'src/lib/bootstrap/js/alert.js',
+          'src/lib/bootstrap/js/button.js',
+          'src/lib/bootstrap/js/carousel.js',
+          'src/lib/bootstrap/js/collapse.js',
+          'src/lib/bootstrap/js/dropdown.js',
+          'src/lib/bootstrap/js/modal.js',
+          'src/lib/bootstrap/js/tooltip.js',
+          'src/lib/bootstrap/js/popover.js',
+          'src/lib/bootstrap/js/scrollspy.js',
+          'src/lib/bootstrap/js/tab.js',
+          'src/lib/bootstrap/js/affix.js'
         ],
-        dest: 'assets/dist/js/bootstrap.js'
+        dest: 'dist/js/bootstrap.js'
       },
       plugins: {
-        src: ['assets/src/js/plugins.js', 'assets/src/js/plugins/*'],
-        dest: 'assets/dist/js/plugins.js'
+        src: ['src/js/plugins.js', 'src/js/plugins/*'],
+        dest: 'dist/js/plugins.js'
       },
       index: {
-        src: ['assets/src/js/index.js'],
-        dest: 'assets/dist/js/index.js'
+        src: ['src/js/index.js'],
+        dest: 'dist/js/index.js'
       },
       home: {
-        src: ['assets/src/js/home.js'],
-        dest: 'assets/dist/js/home.js'
+        src: ['src/js/home.js'],
+        dest: 'dist/js/home.js'
       }
     },
 
@@ -145,7 +146,7 @@ module.exports = function(grunt) {
         options: {
           keepalive: true,
           port: 5001,
-          base: 'assets'
+          base: '.'
         }
       }
     }
@@ -162,7 +163,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-recess');
 
   // Default task.
-  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'recess', 'concat']);
-  grunt.registerTask('release', ['default', 'uglify']);
+  grunt.registerTask('default', ['jshint', 'clean', 'copy', 'recess:dev', 'concat']);
+  grunt.registerTask('release', ['jshint', 'clean', 'copy', 'recess:release', 'concat', 'uglify']);
 
 };

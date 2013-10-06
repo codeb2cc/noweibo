@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
+
 APP_KEY = '2444549515'
 APP_SECRET = '85d0d82b48c9f4f7c13f2d07c28d4f55'
 
@@ -9,16 +11,11 @@ COOKIE_SECRET = 'cmL8d`+/v5T:DJrkIZVD?UE#JL00Stjt'
 AUTHORIZE_REDIRECT = 'http://noweibo.com/auth/authorize'
 REVOKE_REDIRECT = 'http://noweibo.com/'
 
-MONGO_URL = 'localhost'
-MONGO_PORT = 27017
+MONGO_URL = os.environ['OPENSHIFT_MONGODB_DB_URL']
+MONGO_PORT = os.environ['OPENSHIFT_MONGODB_DB_PORT']
 MONGO_DB = 'noweibo'
 
-RABBITMQ_HOST = 'localhost'
-RABBITMQ_PORT = 5672
-RABBITMQ_USER = 'noweibo'
-RABBITMQ_PASSWORD = 'xEAUHJxQmqU7FXywov56'
-
-MEMCACHED = '127.0.0.1:11211'
+MEMCACHED = '/tmp/memcached.sock'
 
 SESSION_COOKIE = 'session'
 SESSION_EXPIRES_SECONDS = 604800

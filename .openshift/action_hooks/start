@@ -1,0 +1,4 @@
+#!/bin/bash
+export NWB_SETTING=noweibo.conf.online
+cd ${OPENSHIFT_REPO_DIR}
+nohup ${OPENSHIFT_DATA_DIR}/bin/python3 -m noweibo.main --process=4 --port=${OPENSHIFT_DIY_PORT} > ${OPENSHIFT_DIY_LOG_DIR}/noweibo.log 2>&1 &

@@ -1,7 +1,7 @@
 {% extends "base.tpl" %}
 
 {% block css %}
-<link rel="stylesheet" href="/assets/css/app.css">
+<link rel="stylesheet" href="/public/css/app.css">
 {% end %}
 
 {% block body %}
@@ -45,5 +45,5 @@
 {% end %}
 
 {% block js %}
-<script src="/assets/js/index.js"></script>
+<script src="/public/js/index.js"></script>
 {% end %}

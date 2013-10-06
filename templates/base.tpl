@@ -11,11 +11,11 @@
     <meta name="description" content"{{ head_description }}">
     <meta name="viewport" content="width=device-width">
 
-    <link rel="stylesheet" href="/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/assets/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/public/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/bootstrap-theme.css">
     {% block css %}{% end %}
 
-    <script src="/assets/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="/public/js/vendor/modernizr-2.6.2.min.js"></script>
   </head>
   <body ng-app="{{ angular_module }}" ng-controller="AppCtrl">
     <!--[if lt IE 9]>
@@ -24,10 +24,10 @@
 
     {% block body %}{% end %}
 
-    <script src="/assets/js/vendor/jquery-2.0.3.min.js"></script>
-    <script src="/assets/js/vendor/angular-1.0.8.min.js"></script>
-    <script src="/assets/js/bootstrap.js"></script>
-    <script src="/assets/js/plugins.js"></script>
+    <script src="/public/js/vendor/jquery-2.0.3.min.js"></script>
+    <script src="/public/js/vendor/angular-1.0.8.min.js"></script>
+    <script src="/public/js/bootstrap.js"></script>
+    <script src="/public/js/plugins.js"></script>
     {% block js %}{% end %}
 
     {% include "ga.tpl" %}

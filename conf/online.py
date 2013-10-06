@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-APP_KEY = '2444549515'
-APP_SECRET = '85d0d82b48c9f4f7c13f2d07c28d4f55'
+import os
+
+APP_KEY = os.environ['WEIBO_KEY']
+APP_SECRET = os.environ['WEIBO_SECRET']
 
 COOKIE_SECRET = 'cmL8d`+/v5T:DJrkIZVD?UE#JL00Stjt'
 
@@ -15,8 +17,8 @@ MONGO_DB = 'noweibo'
 
 RABBITMQ_HOST = 'localhost'
 RABBITMQ_PORT = 5672
-RABBITMQ_USER = 'noweibo'
-RABBITMQ_PASSWORD = 'xEAUHJxQmqU7FXywov56'
+RABBITMQ_USER = os.environ['RABBIT_USER']
+RABBITMQ_PASSWORD = os.environ['RABBIT_PASSWD']
 
 MEMCACHED = '127.0.0.1:11211'
 

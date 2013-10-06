@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import os
+
 APP_KEY = '66994707'
 APP_SECRET = '323631d3d46128ea30605a7732bb6dfd'
 
 COOKIE_SECRET = '2$onW88^G6I=dB4@EwXN1X!QGc&$$tiY'
+
+STATIC_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'public/dist')
 
 AUTHORIZE_REDIRECT = 'http://localhost.com/auth/authorize'
 REVOKE_REDIRECT = 'http://localhost.com/'

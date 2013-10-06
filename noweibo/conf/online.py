@@ -8,6 +8,8 @@ APP_SECRET = '85d0d82b48c9f4f7c13f2d07c28d4f55'
 
 COOKIE_SECRET = 'cmL8d`+/v5T:DJrkIZVD?UE#JL00Stjt'
 
+STATIC_PATH = os.path.join(os.environ['OPENSHIFT_REPO_DIR'], 'noweibo/public/dist')
+
 AUTHORIZE_REDIRECT = 'http://noweibo.com/auth/authorize'
 REVOKE_REDIRECT = 'http://noweibo.com/'
 

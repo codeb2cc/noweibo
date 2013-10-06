@@ -42,6 +42,7 @@ def main():
         (r'/weibo/query', views.rest.WeiboQueryHandler),
         (r'/weibo/redirect', views.rest.WeiboRedirectHandler),
         (r'/emotion/query', views.rest.EmotionQueryHandler),
+        (r'/public/(.*)', web.StaticFileHandler, {'path': setting.STATIC_PATH}),
     ), debug=process_debug, cookie_secret=setting.COOKIE_SECRET)
     app.listen(process_port, xheaders=True)
 

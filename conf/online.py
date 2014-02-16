@@ -15,10 +15,8 @@ MONGO_URL = 'localhost'
 MONGO_PORT = 27017
 MONGO_DB = 'noweibo'
 
-RABBITMQ_HOST = 'localhost'
-RABBITMQ_PORT = 5672
-RABBITMQ_USER = os.environ['RABBIT_USER']
-RABBITMQ_PASSWORD = os.environ['RABBIT_PASSWD']
+CELERY_BROKER = 'redis://localhost:6379/1'
+CELERY_BACKEND = 'redis://localhost:6379/1'
 
 MEMCACHED = '127.0.0.1:11211'
 

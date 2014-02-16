@@ -4,20 +4,19 @@ from celery import Celery
 
 from ..conf import setting
 
+
 celery = Celery(
     'noweibo',
-    broker='amqp://%(user)s:%(password)s@%(host)s:%(port)s//' % {
-        'host': setting.RABBITMQ_HOST,
-        'port': setting.RABBITMQ_PORT,
-        'user': setting.RABBITMQ_USER,
-        'password': setting.RABBITMQ_PASSWORD,
-    }
+    broker=setting.CELERY_BROKER,
 )
 
 celery.conf.update(
     CELERY_TIMEZONE='Asia/Shanghai',
     CELERY_IMPORTS=('noweibo.tasks.periodic', ),
+    CELERY_RESULT_BACKEND=setting.CELERY_BACKEND,
     CELERY_IGNORE_RESULT=True,
+    CELERY_ACCEPT_CONTENT=['pickle', ],
+    CELERY_TASK_SERIALIZER='pickle',
     CELERYD_MAX_TASKS_PER_CHILD=100,
     CELERYBEAT_SCHEDULE={
         'user_update': {

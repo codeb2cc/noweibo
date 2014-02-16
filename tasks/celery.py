@@ -15,7 +15,7 @@ celery.conf.update(
     CELERY_IMPORTS=('noweibo.tasks.periodic', ),
     CELERY_RESULT_BACKEND=setting.CELERY_BACKEND,
     CELERY_IGNORE_RESULT=True,
-    CELERY_ACCEPT_CONTENT=['pickle', ],
+    CELERY_ACCEPT_CONTENT=['pickle', 'json', ],
     CELERY_TASK_SERIALIZER='pickle',
     CELERYD_MAX_TASKS_PER_CHILD=100,
     CELERYBEAT_SCHEDULE={
